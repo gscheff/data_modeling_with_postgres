@@ -8,12 +8,21 @@ directories into these tables.
 
 ## Usage
 
-Create a postgres database and tables in a star schema:
+    1. Run a postgres container.
+
+```bash
+podman pod create --name udacity -p 5432
+podman run -d --pod udacity -e POSTGRES_USER=student -e POSTGRES_PASSWORD=student -e POSTGRES_DB=studentdb postgres:10-alpine
+```
+
+    2. Create a postgres database and tables in a star schema:
+
 ```bash
 python create_tables.py
 ```
 
-Then start the ETL pipeline:
+    3. Then start the ETL pipeline:
+
 ```bash
 python etl.py
 ```
