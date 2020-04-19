@@ -10,62 +10,57 @@ time_table_drop = "DROP TABLE IF EXISTS time;"
 
 songplay_table_create = ("""
 CREATE TABLE IF NOT EXISTS songplays (
-  songplay_id SERIAL,
-  start_time BIGINT REFERENCES time(start_time),
-  user_id VARCHAR REFERENCES users(user_id),
-  level VARCHAR,
-  song_id VARCHAR REFERENCES songs(song_id),
-  artist_id VARCHAR REFERENCES artists(artist_id),
-  session_id VARCHAR,
-  location VARCHAR,
-  user_agent VARCHAR,
-  PRIMARY KEY (songplay_id)
+  songplay_id SERIAL PRIMARY KEY,
+  start_time BIGINT REFERENCES time(start_time) NOT NULL,
+  user_id VARCHAR REFERENCES users(user_id) NOT NULL,
+  level VARCHAR NOT NULL,
+  song_id VARCHAR REFERENCES songs(song_id) NOT NULL,
+  artist_id VARCHAR REFERENCES artists(artist_id) NOT NULL,
+  session_id VARCHAR NOT NULL,
+  location VARCHAR NOT NULL,
+  user_agent VARCHAR NOT NULL
 )
 """)
 
 user_table_create = ("""
 CREATE TABLE IF NOT EXISTS users (
-  user_id VARCHAR NOT NULL, 
-  first_name VARCHAR, 
-  last_name VARCHAR, 
-  gender VARCHAR, 
-  level VARCHAR,
-  PRIMARY KEY (user_id)
+  user_id VARCHAR PRIMARY KEY,
+  first_name VARCHAR NOT NULL, 
+  last_name VARCHAR NOT NULL, 
+  gender VARCHAR NOT NULL, 
+  level VARCHAR NOT NULL
 )
 """)
 
 song_table_create = ("""
 CREATE TABLE IF NOT EXISTS songs (
-  song_id VARCHAR, 
-  title VARCHAR, 
-  artist_id VARCHAR, 
-  year INT, 
-  duration FLOAT,
-  PRIMARY KEY (song_id)
+  song_id VARCHAR PRIMARY KEY,
+  title VARCHAR NOT NULL, 
+  artist_id VARCHAR NOT NULL, 
+  year INT NOT NULL, 
+  duration FLOAT NOT NULL
 )
 """)
 
 artist_table_create = ("""
 CREATE TABLE IF NOT EXISTS artists (
-  artist_id VARCHAR, 
-  name VARCHAR, 
-  location VARCHAR, 
-  latitude FLOAT, 
-  longitude FLOAT,
-  PRIMARY KEY (artist_id)
+  artist_id VARCHAR PRIMARY KEY,
+  name VARCHAR NOT NULL, 
+  location VARCHAR NOT NULL, 
+  latitude FLOAT NOT NULL, 
+  longitude FLOAT NOT NULL
 )
 """)
 
 time_table_create = ("""
 CREATE TABLE IF NOT EXISTS time (
-  start_time BIGINT, 
-  hour INT, 
-  day INT, 
-  week INT, 
-  month INT, 
-  year INT, 
-  weekday INT,
-  PRIMARY KEY (start_time)
+  start_time BIGINT PRIMARY KEY,
+  hour INT NOT NULL, 
+  day INT NOT NULL, 
+  week INT NOT NULL, 
+  month INT NOT NULL, 
+  year INT NOT NULL, 
+  weekday INT NOT NULL
 )
 """)
 
@@ -80,7 +75,7 @@ ON CONFLICT DO NOTHING
 user_table_insert = ("""
 INSERT INTO users (user_id, first_name, last_name, gender, level)
 VALUES (%s, %s, %s, %s, %s)
-ON CONFLICT DO NOTHING
+ON CONFLICT (user_id) DO UPDATE SET level=EXCLUDED.level
 """)
 
 song_table_insert = ("""
