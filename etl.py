@@ -14,6 +14,20 @@ from sql_queries import (
 
 
 def process_song_file(cur, filepath):
+    """Reads a json file an inserts data into database table.
+
+    Parameter
+    ---------
+    cur: db cursor
+        postgres cursor
+    filepath: str
+        Path to json file.
+
+    Returns
+    -------
+    None
+    """
+
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -47,6 +61,19 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """Reads a json file an inserts data into database table.
+
+    Parameter
+    ---------
+    cur: db cursor
+        postgres cursor
+    filepath: str
+        Path to json file.
+
+    Returns
+    -------
+    None
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -116,6 +143,24 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """Reads json files in a directory and processes the data.
+
+    Parameter
+    ---------
+    cur: db cursor
+        A postgres cursor.
+    conn: db connection
+        A postgres connection.
+    filepath: str
+        Directory to json files.
+    func: function
+        A function which reads json data from a file and inserts them into a
+        database.
+
+    Returns
+    -------
+    None
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
